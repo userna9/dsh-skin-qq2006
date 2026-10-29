@@ -1,0 +1,44 @@
+{
+  "name": "dsh-skin-qq2006",
+  "version": "1.0.0",
+  "description": "QQ 2006 / 2007 retro skin for the DSH web UI: glossy blue title bars, contact-list sidebar, bevelled buttons, SimSun 12px text.",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "dsh-skin",
+    "theme",
+    "skin",
+    "qq",
+    "qq2006",
+    "retro"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

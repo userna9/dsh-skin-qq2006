@@ -1,0 +1,8 @@
+# Bundle patch for dsh-skin-qq2006.
+#
+# The package is dual-faced: lib/index.js is the (empty) Host half, and
+# lib/client.js is the browser half that paints the skin. Inserting the row
+# below is all the Host side needs to boot the package into the Web UI.
+- insert:
+    - id: ui-qq2006-skin
+      name: dsh-skin-qq2006

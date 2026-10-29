@@ -1,0 +1,747 @@
+/* ==========================================================================
+   DSH skin · QQ 2006 / 2007
+   Turns the DeepSeek Harness web UI into the classic Tencent QQ 2006/2007
+   desktop client: glossy blue title bars, sky-blue contact list, bevelled
+   buttons, hairline borders and SimSun 12px text.
+
+   Everything is scoped to html[data-qq2006], set by the plugin on boot, so no
+   rule leaks when the skin is disabled. Host class names are CSS modules with
+   a per-build hash prefix; every selector below matches the stable semantic
+   suffix (e.g. [class*="_sessionRow"]) and adds a structural guard where a
+   suffix is generic.
+   ========================================================================== */
+
+html[data-qq2006] {
+  --qq-penguin: url("__PENGUIN__");
+  --qq-bar-hi: #79bdf7;
+  --qq-bar-mid: #3d8ad9;
+  --qq-bar-lo: #1c5aa6;
+  --qq-bar-line: #14498c;
+  --qq-panel: #eef5fd;
+  --qq-list: #ffffff;
+  --qq-group-hi: #f2f9ff;
+  --qq-group-lo: #cfe4f9;
+  --qq-line: #a8c8e8;
+  --qq-line-soft: #cfe0f1;
+  --qq-text: #123a5e;
+  --qq-text-soft: #6c8aa8;
+  --qq-hover: #e8f3fe;
+  --qq-active: #cbe3fb;
+  --qq-btn-hi: #ffffff;
+  --qq-btn-lo: #d6e8f9;
+  --qq-blue: #0b5fa5;
+  color-scheme: light;
+}
+
+/* ---------- 1. global type ---------------------------------------------- */
+
+html[data-qq2006] body {
+  --dsh-content-font-size: 13px !important;
+  font-family: "SimSun", "宋体", "Songti SC", Tahoma, "MS Sans Serif", sans-serif !important;
+  font-size: 12px !important;
+  color: var(--qq-text);
+  background: #dfeaf6 !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+html[data-qq2006] body * {
+  font-family: inherit !important;
+}
+
+html[data-qq2006] code,
+html[data-qq2006] kbd,
+html[data-qq2006] textarea {
+  font-family: "Consolas", "Courier New", "SimSun", monospace !important;
+}
+
+/* ---------- 2. theme tokens: force the light QQ palette in both modes ---- */
+
+html[data-qq2006] body,
+html[data-qq2006] body[data-ds-dark-theme] {
+  --dsw-alias-bg-base: #ffffff !important;
+  --dsw-alias-bg-layer-1: #ffffff !important;
+  --dsw-alias-bg-layer-2: #f5faff !important;
+  --dsw-alias-bg-layer-3: #eaf3fd !important;
+  --dsw-alias-bg-layer-4: #dbeaf9 !important;
+  --dsw-alias-bg-overlay: #ffffff !important;
+  --dsw-alias-bg-mask-1: rgba(12, 40, 70, 0.28) !important;
+  --dsw-alias-bg-module-platform: #eef5fd !important;
+  --dsw-alias-border-l1: #cfe0f1 !important;
+  --dsw-alias-border-l2: #a8c8e8 !important;
+  --dsw-alias-border-l2-darkmode-thin: #cfe0f1 !important;
+  --dsw-alias-border-l3: #8fb4d9 !important;
+  --dsw-alias-border-l4: #6e9fd4 !important;
+  --dsw-alias-brand-primary: #2f7ed0 !important;
+  --dsw-alias-brand-primary-new-colorprimary-new-color: #2f7ed0 !important;
+  --dsw-alias-button-primary-fill: #d6e8f9 !important;
+  --dsw-alias-button-primary-hover: #c9e0f6 !important;
+  --dsw-alias-button-ghost-active-fill: #cbe3fb !important;
+  --dsw-alias-button-ghost-active-border: #8fb4d9 !important;
+  --dsw-alias-button-tool-bar-fill: #eef5fd !important;
+  --dsw-alias-button-tool-bar-hover: #e2eefb !important;
+  --dsw-alias-interactive-bg-hover: #e8f3fe !important;
+  --dsw-alias-interactive-bg-active: #cbe3fb !important;
+  --dsw-alias-interactive-bg-hover-danger: #fbe3e0 !important;
+  --dsw-alias-label-primary: #12324f !important;
+  --dsw-alias-label-secondary: #4a6f92 !important;
+  --dsw-alias-label-tertiary: #6c8aa8 !important;
+  --dsw-alias-label-caption: #7c93ad !important;
+  --dsw-alias-label-dimmed: #93afc8 !important;
+  --dsw-alias-label-primary-foreground: #ffffff !important;
+  --dsw-alias-label-primary-inverted: #ffffff !important;
+  --dsw-alias-label-error: #c0392b !important;
+  --dsw-alias-state-success-primary: #2e8b57 !important;
+  --dsw-alias-state-success-tertiary: #2e8b57 !important;
+  --dsw-alias-state-error-primary: #c0392b !important;
+  --dsw-alias-state-warn-primary: #b8860b !important;
+  --dsw-alias-state-warn-label: #8a6508 !important;
+  --dsw-alias-state-business-primary: #2f7ed0 !important;
+  --dsw-alias-state-idle-primary: #93afc8 !important;
+  --dsw-alias-link: #0b5fa5 !important;
+  --dsw-alias-markdown-code-block: #f6fafe !important;
+  --dsw-alias-markdown-code-block-banner: #eaf3fd !important;
+  --dsw-alias-markdown-inline-code: #eef5fd !important;
+  --dsw-alias-markdown-tag: #e8f3fe !important;
+  --dsw-alias-menu-group-header-fill: #eaf3fd !important;
+  --dsw-alias-menu-icon: #3f7cb8 !important;
+  --dsw-alias-scrollbar-bg-l2: #f2f7fc !important;
+  --dsw-alias-scrollbar-hover-l2: #cfe2f4 !important;
+  --dsw-alias-switch-thumb: #ffffff !important;
+  --dsw-alias-toast-bg: #f4fbff !important;
+  --dsw-alias-toast-label: #1d3f60 !important;
+  --dsw-alias-tooltip-bg: #ffffe1 !important;
+  --dsw-alias-tooltip-key-bg: #f2f2c8 !important;
+  --dsw-specific-sidebar-fill: #eef5fd !important;
+}
+
+/* ---------- 3. scrollbars (Windows classic) ----------------------------- */
+
+html[data-qq2006] ::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+html[data-qq2006] ::-webkit-scrollbar-track {
+  background: #f2f7fc;
+  border-left: 1px solid #dbe7f3;
+}
+html[data-qq2006] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #f6fbff, #cfe2f4);
+  border: 1px solid #a9c4de;
+  border-radius: 2px;
+}
+html[data-qq2006] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #eaf5ff, #b6d3ec);
+}
+html[data-qq2006] ::-webkit-scrollbar-corner {
+  background: #f2f7fc;
+}
+
+/* ---------- 4. sidebar = QQ main panel ---------------------------------- */
+
+html[data-qq2006] [class*="_sidebarCol"] {
+  background: var(--qq-panel) !important;
+  border-right: 1px solid var(--qq-line) !important;
+}
+
+/* title bar */
+html[data-qq2006] [class*="_logoRow"] {
+  position: relative;
+  height: 30px !important;
+  min-height: 30px !important;
+  margin: -6px -12px 6px !important;
+  padding: 0 6px 0 8px !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background: linear-gradient(180deg, var(--qq-bar-hi) 0%, var(--qq-bar-mid) 52%, var(--qq-bar-lo) 100%) !important;
+  border-bottom: 1px solid var(--qq-bar-line) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55) !important;
+}
+
+/* penguin + wordmark */
+html[data-qq2006] [class*="_brandIdentity"] {
+  gap: 6px !important;
+  align-items: center !important;
+}
+html[data-qq2006] [class*="_brandIdentity"]::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  flex: none;
+  background: var(--qq-penguin) center / 18px 18px no-repeat;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.3));
+}
+html[data-qq2006] [class*="_brandMark"],
+html[data-qq2006] [class*="_brandName"] svg {
+  display: none !important;
+}
+html[data-qq2006] [class*="_brandName"] {
+  width: auto !important;
+  height: auto !important;
+}
+html[data-qq2006] [class*="_brandName"]::after {
+  content: "QQ 2006";
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+}
+
+/* fake window buttons */
+html[data-qq2006] [class*="_logoRow"]::after {
+  content: "\FF0D\2003\25A2\2003\2715";
+  margin-left: auto;
+  margin-right: 2px;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 1px;
+  color: #eaf5ff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+html[data-qq2006] [class*="_logoRow"] [class*="_toggle"] {
+  width: 18px !important;
+  height: 18px !important;
+  background: transparent !important;
+  color: #eaf5ff !important;
+  opacity: 0.92;
+}
+html[data-qq2006] [class*="_logoRow"] [class*="_toggle"] svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+/* new session = bevelled classic button */
+html[data-qq2006] button[class*="_newSession"] {
+  height: 28px !important;
+  margin: 0 10px 8px !important;
+  padding: 0 10px !important;
+  border: 1px solid #7fa9d5 !important;
+  border-radius: 3px !important;
+  background: linear-gradient(180deg, var(--qq-btn-hi) 0%, var(--qq-btn-lo) 100%) !important;
+  box-shadow: inset 0 1px 0 #ffffff !important;
+  color: #17497e !important;
+  font-size: 12px !important;
+}
+html[data-qq2006] button[class*="_newSession"]:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #c9e0f6 100%) !important;
+  border-color: #5f93ca !important;
+}
+html[data-qq2006] button[class*="_newSession"]:active {
+  background: linear-gradient(180deg, #c9e0f6 0%, #e8f2fb 100%) !important;
+  box-shadow: inset 0 1px 3px rgba(23, 73, 126, 0.25) !important;
+}
+html[data-qq2006] [class*="_newSessionLabelMask"],
+html[data-qq2006] [class*="_newSessionContent"] {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transform: none !important;
+}
+html[data-qq2006] [class*="_newSessionShortcut"] {
+  display: none !important;
+}
+html[data-qq2006] [class*="_newSessionLabel"] {
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  transform: none !important;
+}
+
+/* top quick entries */
+html[data-qq2006] [class*="_panelRow"] {
+  height: 28px !important;
+  padding: 0 8px !important;
+  border-radius: 0 !important;
+  color: #1d4e7f !important;
+  font-size: 12px !important;
+}
+html[data-qq2006] [class*="_panelRow"]:hover {
+  background: var(--qq-hover) !important;
+}
+html[data-qq2006] [class*="_panelGlyph"] {
+  color: #3f7cb8 !important;
+}
+html[data-qq2006] [class*="_panelTitle"] {
+  font-size: 12px !important;
+}
+
+/* contact group bar */
+html[data-qq2006] [class*="_sectionHeader"] {
+  height: 24px !important;
+  min-height: 24px !important;
+  margin: 0 -12px 2px !important;
+  padding: 0 8px 0 13px !important;
+  border-top: 1px solid #ffffff !important;
+  border-bottom: 1px solid var(--qq-line) !important;
+  background: linear-gradient(180deg, var(--qq-group-hi) 0%, var(--qq-group-lo) 100%) !important;
+}
+html[data-qq2006] [class*="_sectionHeader"]::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  flex: none;
+  margin-right: 3px;
+  background: linear-gradient(180deg, #7fb2e2, #4a86c4);
+  border: 1px solid #3670ad;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+html[data-qq2006] [class*="_sectionLabel"] {
+  color: #1c4c7e !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* contact list */
+html[data-qq2006] [class*="_listArea"],
+html[data-qq2006] [class*="_treeBody"] {
+  background: var(--qq-list) !important;
+}
+html[data-qq2006] [class*="_sessionRow"] {
+  position: relative;
+  height: 30px !important;
+  padding: 0 6px !important;
+  border-radius: 0 !important;
+  color: #1a3a5c !important;
+  font-size: 12px !important;
+}
+html[data-qq2006] [class*="_sessionRow"]::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  flex: none;
+  margin-right: 6px;
+  background: #ffffff var(--qq-penguin) center / 17px 17px no-repeat;
+  border: 1px solid #b9d4ee;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px #ffffff;
+}
+html[data-qq2006] [class*="_sessionRow"] [class*="_slot"] {
+  display: none !important;
+}
+html[data-qq2006] [class*="_sessionRow"]:hover {
+  background: var(--qq-hover) !important;
+}
+html[data-qq2006] [class*="_sessionRow"][class*="_selected"],
+html[data-qq2006] [class*="_sessionRow"][aria-selected="true"] {
+  background: var(--qq-active) !important;
+  box-shadow: inset 0 0 0 1px #96bee4 !important;
+  color: #0d3a63 !important;
+}
+html[data-qq2006] [class*="_sessionRow"] [class*="_time"] {
+  color: #7c93ad !important;
+  font-size: 11px !important;
+}
+html[data-qq2006] [class*="_sessionOverflowButton"] {
+  height: 24px !important;
+  border-radius: 0 !important;
+  border-top: 1px dotted var(--qq-line) !important;
+  color: var(--qq-blue) !important;
+  font-size: 12px !important;
+}
+html[data-qq2006] [class*="_sessionOverflowButton"]:hover {
+  background: var(--qq-hover) !important;
+}
+
+/* bottom bar */
+html[data-qq2006] [class*="_footArea"] {
+  height: 34px !important;
+  border-top: 1px solid var(--qq-line) !important;
+  background: linear-gradient(180deg, #f4fafe, #e2eefb) !important;
+}
+html[data-qq2006] [class*="_footArea"] [class*="_trigger"] {
+  height: 33px !important;
+  padding: 0 10px !important;
+  border-radius: 0 !important;
+  color: #1d4e7f !important;
+  font-size: 12px !important;
+}
+html[data-qq2006] [class*="_footArea"] [class*="_trigger"]:hover {
+  background: var(--qq-hover) !important;
+}
+
+/* ---------- 5. chat window header --------------------------------------- */
+
+html[data-qq2006] header[class*="_header"] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  background: linear-gradient(180deg, #6fb4f2 0%, #3a86d5 58%, #1f5fae 100%) !important;
+  border-bottom: 1px solid var(--qq-line) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
+}
+html[data-qq2006] header[class*="_header"] [class*="_titleRow"],
+html[data-qq2006] header[class*="_header"] [class*="_titleRow"] * {
+  color: #eaf5ff !important;
+}
+html[data-qq2006] header[class*="_header"] [class*="_crumbCurrent"] {
+  padding: 2px 6px !important;
+  border-radius: 2px !important;
+  background: transparent !important;
+  color: #ffffff !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+}
+html[data-qq2006] header[class*="_header"] [class*="_crumb"] {
+  color: #eaf5ff !important;
+}
+html[data-qq2006] header[class*="_header"] button {
+  color: #eaf5ff !important;
+}
+html[data-qq2006] header[class*="_header"] button svg {
+  /* monochrome white toolbar icons, whatever the source fills were */
+  color: #eaf5ff !important;
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+}
+html[data-qq2006] header[class*="_header"] button:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 2px !important;
+}
+
+/* tabs = conversation toolbar strip */
+html[data-qq2006] header[class*="_header"] [class*="_tabs"] {
+  height: 24px !important;
+  padding: 0 8px !important;
+  gap: 2px !important;
+  align-items: flex-end !important;
+  background: linear-gradient(180deg, #f6fbff, #dbeaf9) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-bottom: 1px solid var(--qq-line) !important;
+}
+html[data-qq2006] header[class*="_header"] button[class*="_tab"] {
+  height: 21px !important;
+  padding: 0 10px !important;
+  border: 1px solid transparent !important;
+  border-bottom: none !important;
+  border-radius: 3px 3px 0 0 !important;
+  background: transparent !important;
+  color: #2a5c8f !important;
+  font-size: 12px !important;
+}
+html[data-qq2006] header[class*="_header"] button[class*="_tab"]:hover {
+  background: #e8f3fe !important;
+}
+html[data-qq2006] header[class*="_header"] button[class*="_tab"][class*="Active"] {
+  position: relative;
+  top: 1px;
+  background: linear-gradient(180deg, #ffffff, #f2f8fe) !important;
+  border-color: var(--qq-line) !important;
+  color: #0f3f6e !important;
+  font-weight: 700 !important;
+}
+
+/* ---------- 6. conversation --------------------------------------------- */
+
+html[data-qq2006] [class*="_scrollBody"],
+html[data-qq2006] [class*="_viewArea"] {
+  background: #ffffff !important;
+}
+html[data-qq2006] [class*="_column"] {
+  font-size: 12.5px !important;
+  line-height: 1.75 !important;
+  color: #1a1a1a !important;
+}
+
+/* outgoing bubble */
+html[data-qq2006] [class*="_bubble"] {
+  position: relative;
+  padding: 8px 12px !important;
+  border: 1px solid #9cc2e6 !important;
+  border-radius: 4px !important;
+  background: linear-gradient(180deg, #eaf5ff 0%, #d3e8fb 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  color: #11324f !important;
+  font-size: 12.5px !important;
+  line-height: 1.65 !important;
+}
+html[data-qq2006] [class*="_bubble"]::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  right: -5px;
+  width: 8px;
+  height: 8px;
+  background: #d9ebfc;
+  border-right: 1px solid #9cc2e6;
+  border-top: 1px solid #9cc2e6;
+  transform: rotate(45deg);
+}
+
+/* timestamps and hover actions */
+html[data-qq2006] [class*="_timeStart"] {
+  color: #7c93ad !important;
+  font-size: 11px !important;
+}
+
+/* own avatar on the right of every outgoing message, like the classic client */
+html[data-qq2006] [class*="_userRow"] {
+  position: relative;
+  padding-right: 38px !important;
+}
+html[data-qq2006] [class*="_userRow"]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background: #ffffff var(--qq-penguin) center / 25px 25px no-repeat;
+  border: 1px solid #b9d4ee;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px #ffffff;
+}
+html[data-qq2006] [class*="_actions"] button {
+  border-radius: 2px !important;
+  color: #5b7ea3 !important;
+}
+html[data-qq2006] [class*="_actions"] button:hover {
+  background: var(--qq-hover) !important;
+  color: var(--qq-blue) !important;
+}
+
+/* assistant prose */
+html[data-qq2006] [class*="_markdown"] {
+  color: #1a1a1a !important;
+  font-size: 12.5px !important;
+  line-height: 1.8 !important;
+}
+html[data-qq2006] [class*="_markdown"] p {
+  margin: 0.5em 0 !important;
+}
+html[data-qq2006] [class*="_markdown"] a {
+  color: var(--qq-blue) !important;
+  text-decoration: underline !important;
+}
+html[data-qq2006] [class*="_markdown"] h1,
+html[data-qq2006] [class*="_markdown"] h2,
+html[data-qq2006] [class*="_markdown"] h3 {
+  padding-bottom: 2px !important;
+  border-bottom: 1px solid var(--qq-line-soft) !important;
+  color: #0f3f6e !important;
+  font-size: 13.5px !important;
+}
+html[data-qq2006] [class*="_markdown"] ul,
+html[data-qq2006] [class*="_markdown"] ol {
+  padding-left: 1.6em !important;
+}
+html[data-qq2006] [class*="_markdown"] li::marker {
+  color: #3f7cb8;
+}
+html[data-qq2006] [class*="_markdown"] hr {
+  border: none !important;
+  border-top: 1px solid var(--qq-line-soft) !important;
+}
+html[data-qq2006] [class*="_markdown"] table {
+  border-collapse: collapse !important;
+}
+html[data-qq2006] [class*="_markdown"] th {
+  border: 1px solid var(--qq-line) !important;
+  background: linear-gradient(180deg, var(--qq-group-hi), var(--qq-group-lo)) !important;
+  color: #1c4c7e !important;
+  font-weight: 700 !important;
+}
+html[data-qq2006] [class*="_markdown"] td {
+  border: 1px solid var(--qq-line-soft) !important;
+}
+html[data-qq2006] [class*="_markdown"] blockquote {
+  border-left: 3px solid var(--qq-line) !important;
+  background: #f4f9fe !important;
+  color: #33587a !important;
+}
+html[data-qq2006] [class*="_markdown"] code {
+  padding: 0 3px !important;
+  border: 1px solid #d4e4f4 !important;
+  border-radius: 2px !important;
+  background: #eef5fd !important;
+  color: #a03a2a !important;
+  font-size: 12px !important;
+}
+html[data-qq2006] pre,
+html[data-qq2006] [class*="code-block"],
+html[data-qq2006] [class*="_shiki"] {
+  border: 1px solid #c9ddf1 !important;
+  border-radius: 2px !important;
+  background: #f6fafe !important;
+}
+
+/* ---------- 7. composer = QQ input box ---------------------------------- */
+
+/* empty state: the whale wordmark becomes the penguin mascot */
+html[data-qq2006] [class*="_composerHero"] [class*="_headline"] svg,
+html[data-qq2006] [class*="_composerHero"] [class*="_headline"] img {
+  display: none !important;
+}
+html[data-qq2006] [class*="_composerHero"] [class*="_headline"]::before {
+  content: "";
+  width: 34px;
+  height: 34px;
+  flex: none;
+  background: var(--qq-penguin) center / contain no-repeat;
+}
+html[data-qq2006] [class*="_composerHero"] [class*="_headline"] {
+  color: #123a5e !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px;
+}
+
+html[data-qq2006] [class*="_composerSeat"] {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 42%) !important;
+}
+html[data-qq2006] [class*="_composerStack"] [class*="_card"] {
+  overflow: hidden;
+  padding: 0 !important;
+  gap: 0 !important;
+  border: 1px solid #7fa9d5 !important;
+  border-radius: 3px !important;
+  background: #ffffff !important;
+  box-shadow: 0 1px 2px rgba(31, 79, 135, 0.1) !important;
+}
+html[data-qq2006] [class*="_composerStack"] [class*="_card"]::before {
+  content: "字体  表情  图片  截图  震屏";
+  display: block;
+  height: 22px;
+  padding: 0 8px;
+  overflow: hidden;
+  border-bottom: 1px solid #cfe0f1;
+  background: linear-gradient(180deg, #f8fcff, #e7f2fd);
+  color: #4c7196;
+  font-size: 11px;
+  line-height: 22px;
+  letter-spacing: 4px;
+  white-space: nowrap;
+}
+html[data-qq2006] [class*="_composerStack"] [class*="_input"] {
+  padding: 8px 10px !important;
+  color: #12324f !important;
+  font-size: 12.5px !important;
+}
+html[data-qq2006] [class*="_composerStack"] [class*="_placeholder"] {
+  top: 8px !important;
+  left: 10px !important;
+  color: #93afc8 !important;
+  font-size: 12px !important;
+}
+html[data-qq2006] [class*="_composerStack"] [class*="_row"] {
+  padding: 4px 8px 6px !important;
+  border-top: 1px solid #eaf2fa !important;
+}
+html[data-qq2006] [class*="_composerStack"] button {
+  border-radius: 2px !important;
+  color: #3f6f9e !important;
+  font-size: 12px !important;
+}
+html[data-qq2006] [class*="_composerStack"] button:hover {
+  background: var(--qq-hover) !important;
+}
+
+/* send button */
+html[data-qq2006] [class*="_composerStack"] [class*="_primary"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 68px !important;
+  height: 24px !important;
+  padding: 0 !important;
+  border: 1px solid #7fa9d5 !important;
+  border-radius: 3px !important;
+  background: linear-gradient(180deg, #ffffff 0%, #d6e8f9 100%) !important;
+  box-shadow: inset 0 1px 0 #ffffff !important;
+  color: #17497e !important;
+}
+html[data-qq2006] [class*="_composerStack"] [class*="_primary"]:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #c9e0f6 100%) !important;
+}
+html[data-qq2006] [class*="_composerStack"] [class*="_primary"]:active {
+  background: linear-gradient(180deg, #c9e0f6, #e8f2fb) !important;
+  box-shadow: inset 0 1px 3px rgba(23, 73, 126, 0.3) !important;
+}
+html[data-qq2006] [class*="_composerStack"] [class*="_primary"] svg {
+  display: none !important;
+}
+html[data-qq2006] [class*="_composerStack"] [class*="_primary"]::after {
+  content: "发送(S)";
+  color: #17497e;
+  font-size: 12px;
+  line-height: 1;
+}
+
+/* status line under the input */
+html[data-qq2006] [class*="_dock"] {
+  color: #7c93ad !important;
+}
+html[data-qq2006] [class*="_dock"] button,
+html[data-qq2006] [class*="_dock"] span {
+  color: #6c8aa8 !important;
+  font-size: 11px !important;
+}
+html[data-qq2006] [class*="_dock"] button {
+  border-radius: 2px !important;
+  background: transparent !important;
+}
+html[data-qq2006] [class*="_dock"] button:hover {
+  background: var(--qq-hover) !important;
+  color: var(--qq-blue) !important;
+}
+
+/* ---------- 8. right panel, menus, dialogs, tooltips -------------------- */
+
+/* The right panel keeps its own surface: painting a background here would
+   light up the panel while it is parked off-layout, covering the conversation. */
+html[data-qq2006] [class*="_panel"][aria-hidden="true"] {
+  visibility: hidden !important;
+}
+html[data-qq2006] [class*="_pane"] {
+  border-left: 1px solid var(--qq-line) !important;
+}
+html[data-qq2006] [role="menu"] {
+  border: 1px solid #8fb4d9 !important;
+  border-radius: 2px !important;
+  background: #ffffff !important;
+  box-shadow: 2px 2px 5px rgba(31, 79, 135, 0.22) !important;
+}
+html[data-qq2006] [role="menuitem"] {
+  border-radius: 0 !important;
+  color: #1d3f60 !important;
+  font-size: 12px !important;
+}
+html[data-qq2006] [role="menuitem"]:hover,
+html[data-qq2006] [role="menuitem"]:focus {
+  background: #cbe3fb !important;
+  color: #0d3a63 !important;
+}
+html[data-qq2006] [role="dialog"] {
+  overflow: hidden;
+  border: 1px solid #6e9fd4 !important;
+  border-radius: 3px !important;
+  box-shadow: 0 3px 14px rgba(20, 60, 106, 0.35) !important;
+}
+html[data-qq2006] [role="tooltip"] {
+  border: 1px solid #b9b98f !important;
+  border-radius: 0 !important;
+  background: #ffffe1 !important;
+  color: #1a1a1a !important;
+  font-size: 11px !important;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* ---------- 9. compact widths ------------------------------------------- */
+
+@media (max-width: 1080px) {
+  html[data-qq2006] [class*="_logoRow"]::after {
+    content: "\FF0D\2003\2715";
+  }
+  html[data-qq2006] [class*="_newSession"] {
+    margin: 0 8px 6px !important;
+  }
+}
