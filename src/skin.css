@@ -750,7 +750,8 @@ html[data-qq2006] body:has([class*="_column"]) [class*="_composerStack"] [class*
 }
 
 html[data-qq2006] [class*="_composerStack"] [class*="_card"] {
-  overflow: hidden;
+  /* no `overflow: hidden` here: the "+" button opens an absolutely positioned
+     command panel inside this card, and clipping it made the button look dead. */
   padding: 0 !important;
   gap: 0 !important;
   border: 1px solid #7fa9d5 !important;
@@ -760,6 +761,7 @@ html[data-qq2006] [class*="_composerStack"] [class*="_card"] {
 }
 html[data-qq2006] [class*="_composerStack"] [class*="_card"]::before {
   content: "字体  表情  图片  截图  震屏";
+  border-radius: 2px 2px 0 0;
   display: block;
   height: 22px;
   padding: 0 8px;
@@ -875,7 +877,7 @@ html[data-qq2006] [role="menuitem"]:focus {
   color: #0d3a63 !important;
 }
 html[data-qq2006] [role="dialog"] {
-  overflow: hidden;
+  /* no clipping: dropdowns inside a dialog are absolutely positioned children */
   border: 1px solid #6e9fd4 !important;
   border-radius: 3px !important;
   box-shadow: 0 3px 14px rgba(20, 60, 106, 0.35) !important;
@@ -887,6 +889,26 @@ html[data-qq2006] [role="tooltip"] {
   color: #1a1a1a !important;
   font-size: 11px !important;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* ---------- 8b. popovers (command panel, pickers) ----------------------- */
+
+html[data-qq2006] [role="listbox"] {
+  border-radius: 2px !important;
+  background: #ffffff !important;
+}
+html[data-qq2006] [class*="_surface"]:has([role="listbox"]) {
+  border: 1px solid #8fb4d9 !important;
+  border-radius: 2px !important;
+  box-shadow: 2px 2px 6px rgba(31, 79, 135, 0.28) !important;
+}
+html[data-qq2006] [role="option"] {
+  border-radius: 0 !important;
+  font-size: 12px !important;
+}
+html[data-qq2006] [role="option"]:hover,
+html[data-qq2006] [role="option"][aria-selected="true"] {
+  background: #cbe3fb !important;
 }
 
 /* ---------- 9. compact widths ------------------------------------------- */
