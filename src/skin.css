@@ -34,6 +34,7 @@ html[data-qq2006] {
   --qq-paper: #eef6ff;
   --qq-desktop: #2f6cad;
   --qq-chrome: 30px;
+  --qq-status: 22px;
   color-scheme: light;
 }
 
@@ -54,6 +55,7 @@ html[data-qq2006] body {
 html[data-qq2006] [class*="_frame"]:has(> [class*="_sidebarCol"]) {
   box-sizing: border-box !important;
   padding-top: var(--qq-chrome) !important;
+  padding-bottom: var(--qq-status) !important;
   background: var(--qq-paper) !important;
   box-shadow:
     inset 0 0 0 1px #17497e,
@@ -93,10 +95,14 @@ html[data-qq2006] [class*="_frame"]:has(> [class*="_sidebarCol"]) {
   letter-spacing: 0.5px;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
 }
-.qq-windowbar .qq-wb-sub {
-  font-size: 11px;
-  color: #cfe6ff;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+.qq-windowbar .qq-wb-doc {
+  overflow: hidden;
+  max-width: 46vw;
+  font-size: 12px;
+  color: #eaf5ff;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
 }
 .qq-windowbar .qq-wb-btns {
   margin-left: auto;
@@ -150,6 +156,79 @@ html[data-qq2006] code,
 html[data-qq2006] kbd,
 html[data-qq2006] textarea {
   font-family: "Consolas", "Courier New", "SimSun", monospace !important;
+}
+
+.qq-statusbar {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  height: var(--qq-status);
+  padding: 0 6px;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #f7fcff 0%, #dceaf9 100%);
+  border-top: 1px solid var(--qq-line);
+  box-shadow: inset 0 1px 0 #ffffff;
+  pointer-events: none;
+  font-family: "SimSun", "宋体", Tahoma, sans-serif;
+  user-select: none;
+}
+.qq-statusbar .qq-sb-icons {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+.qq-statusbar .qq-sb-icons i {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #8fb4d9;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #ffffff, #cfe3f8);
+  box-shadow: inset 0 1px 0 #ffffff;
+}
+.qq-statusbar .qq-sb-icons i:nth-child(1) {
+  background: linear-gradient(180deg, #eaf4ff, #7fb2e6);
+}
+.qq-statusbar .qq-sb-icons i:nth-child(2) {
+  background: linear-gradient(180deg, #fff8d8, #f5c93a);
+}
+.qq-statusbar .qq-sb-icons i:nth-child(3) {
+  background: linear-gradient(180deg, #ffeede, #f19b3f);
+}
+.qq-statusbar .qq-sb-icons i:nth-child(4) {
+  background: linear-gradient(180deg, #fff6e0, #e7b64b);
+}
+.qq-statusbar .qq-sb-icons i:nth-child(5) {
+  background: linear-gradient(180deg, #e6f3ff, #4f93d8);
+}
+.qq-statusbar .qq-sb-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  color: #26547f;
+  font-size: 11px;
+}
+.qq-statusbar .qq-sb-safe {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: #2e8b57;
+}
+.qq-statusbar .qq-sb-safe b {
+  display: block;
+  width: 9px;
+  height: 10px;
+  border-radius: 1px 1px 4px 4px;
+  background: linear-gradient(180deg, #7ed09a, #2e8b57);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+.qq-statusbar .qq-sb-clock {
+  color: #26547f;
+  font-size: 11px;
+  letter-spacing: 0.5px;
 }
 
 /* ---------- 2. theme tokens: force the light QQ palette in both modes ---- */
