@@ -13,11 +13,12 @@
 
 html[data-qq2006] {
   --qq-penguin: url("__PENGUIN__");
+  --qq-watermark: url("__WATERMARK__");
   --qq-bar-hi: #79bdf7;
   --qq-bar-mid: #3d8ad9;
   --qq-bar-lo: #1c5aa6;
   --qq-bar-line: #14498c;
-  --qq-panel: #eef5fd;
+  --qq-panel: #dcebfa;
   --qq-list: #ffffff;
   --qq-group-hi: #f2f9ff;
   --qq-group-lo: #cfe4f9;
@@ -25,11 +26,14 @@ html[data-qq2006] {
   --qq-line-soft: #cfe0f1;
   --qq-text: #123a5e;
   --qq-text-soft: #6c8aa8;
-  --qq-hover: #e8f3fe;
+  --qq-hover: #e0eefc;
   --qq-active: #cbe3fb;
   --qq-btn-hi: #ffffff;
   --qq-btn-lo: #d6e8f9;
   --qq-blue: #0b5fa5;
+  --qq-paper: #eef6ff;
+  --qq-desktop: #2f6cad;
+  --qq-chrome: 30px;
   color-scheme: light;
 }
 
@@ -40,8 +44,102 @@ html[data-qq2006] body {
   font-family: "SimSun", "宋体", "Songti SC", Tahoma, "MS Sans Serif", sans-serif !important;
   font-size: 12px !important;
   color: var(--qq-text);
-  background: #dfeaf6 !important;
+  background: var(--qq-desktop) !important;
   -webkit-font-smoothing: antialiased;
+}
+
+/* the app window is the only frame that directly holds the sidebar column;
+   a bare [class*="_frame"] also matches the conversation frame and would
+   push a 30px window inset into the message list. */
+html[data-qq2006] [class*="_frame"]:has(> [class*="_sidebarCol"]) {
+  box-sizing: border-box !important;
+  padding-top: var(--qq-chrome) !important;
+  background: var(--qq-paper) !important;
+  box-shadow:
+    inset 0 0 0 1px #17497e,
+    inset 0 0 0 2px #7fb4e6 !important;
+}
+
+/* ---------- 1b. window chrome (injected by the plugin) ------------------- */
+
+.qq-windowbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 9000;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--qq-chrome);
+  padding: 0 4px 0 8px;
+  background: linear-gradient(180deg, #7cc0f8 0%, #3d8ad9 52%, #1a55a0 100%);
+  border-bottom: 1px solid #14498c;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  font-family: "SimSun", "宋体", Tahoma, sans-serif;
+  user-select: none;
+}
+.qq-windowbar .qq-wb-icon {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  background: var(--qq-penguin) center / 18px 18px no-repeat;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.3));
+}
+.qq-windowbar .qq-wb-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+}
+.qq-windowbar .qq-wb-sub {
+  font-size: 11px;
+  color: #cfe6ff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+.qq-windowbar .qq-wb-btns {
+  margin-left: auto;
+  display: flex;
+  gap: 2px;
+}
+.qq-windowbar .qq-wb-btns i {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 18px;
+  border: 1px solid #2b6cb0;
+  background: linear-gradient(180deg, #a6d4ff, #4d93d8);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+.qq-windowbar .qq-wb-min::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 5px;
+  height: 1px;
+  background: #0f3f6e;
+}
+.qq-windowbar .qq-wb-max::after {
+  content: "";
+  position: absolute;
+  inset: 4px 4px 5px 4px;
+  border: 1px solid #0f3f6e;
+}
+.qq-windowbar .qq-wb-close::before,
+.qq-windowbar .qq-wb-close::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  width: 10px;
+  height: 1px;
+  background: #7a1a1a;
+  transform: rotate(45deg);
+}
+.qq-windowbar .qq-wb-close::after {
+  transform: rotate(-45deg);
 }
 
 html[data-qq2006] body * {
@@ -142,33 +240,50 @@ html[data-qq2006] [class*="_sidebarCol"] {
   background: var(--qq-panel) !important;
   border-right: 1px solid var(--qq-line) !important;
 }
-
-/* title bar */
-html[data-qq2006] [class*="_logoRow"] {
-  position: relative;
-  height: 30px !important;
-  min-height: 30px !important;
-  margin: -6px -12px 6px !important;
-  padding: 0 6px 0 8px !important;
-  align-items: center !important;
-  gap: 6px !important;
-  background: linear-gradient(180deg, var(--qq-bar-hi) 0%, var(--qq-bar-mid) 52%, var(--qq-bar-lo) 100%) !important;
-  border-bottom: 1px solid var(--qq-bar-line) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55) !important;
+/* let the panel colour own the whole column instead of the wrapper's own tint */
+html[data-qq2006] [class*="_sidebarCol"] > div,
+html[data-qq2006] [class*="_sidebarCol"] [class*="_root"]:has(> [class*="_logoRow"]) {
+  background: transparent !important;
 }
 
-/* penguin + wordmark */
+/* user strip under the window bar: avatar + nickname + status */
+html[data-qq2006] [class*="_logoRow"] {
+  position: relative;
+  height: 46px !important;
+  min-height: 46px !important;
+  margin: -6px -12px 0 !important;
+  padding: 0 6px 0 8px !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: linear-gradient(180deg, #eaf4ff 0%, #d7e8fa 100%) !important;
+  border-bottom: 1px solid var(--qq-line) !important;
+  box-shadow: inset 0 1px 0 #ffffff !important;
+}
+
 html[data-qq2006] [class*="_brandIdentity"] {
-  gap: 6px !important;
+  gap: 7px !important;
   align-items: center !important;
 }
 html[data-qq2006] [class*="_brandIdentity"]::before {
   content: "";
-  width: 18px;
-  height: 18px;
+  width: 28px;
+  height: 28px;
   flex: none;
-  background: var(--qq-penguin) center / 18px 18px no-repeat;
-  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.3));
+  background: #ffffff var(--qq-penguin) center / 24px 24px no-repeat;
+  border: 1px solid #9cc2e6;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px #ffffff;
+}
+html[data-qq2006] [class*="_brandIdentity"]::after {
+  content: "在线";
+  margin-left: 2px;
+  padding: 0 3px;
+  border: 1px solid #a9d3b4;
+  border-radius: 2px;
+  background: #eefaf1;
+  color: #2e8b57;
+  font-size: 10px;
+  line-height: 14px;
 }
 html[data-qq2006] [class*="_brandMark"],
 html[data-qq2006] [class*="_brandName"] svg {
@@ -179,32 +294,25 @@ html[data-qq2006] [class*="_brandName"] {
   height: auto !important;
 }
 html[data-qq2006] [class*="_brandName"]::after {
-  content: "QQ 2006";
+  content: "DSH 用户";
+  color: #12324e !important;
   font-size: 12px !important;
   font-weight: 700 !important;
-  color: #ffffff !important;
   letter-spacing: 0.5px;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
 }
 
-/* fake window buttons */
-html[data-qq2006] [class*="_logoRow"]::after {
-  content: "\FF0D\2003\25A2\2003\2715";
-  margin-left: auto;
-  margin-right: 2px;
-  font-size: 11px;
-  line-height: 1;
-  letter-spacing: 1px;
-  color: #eaf5ff;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-  pointer-events: none;
-}
 html[data-qq2006] [class*="_logoRow"] [class*="_toggle"] {
-  width: 18px !important;
-  height: 18px !important;
+  width: 20px !important;
+  height: 20px !important;
+  margin-left: auto;
   background: transparent !important;
-  color: #eaf5ff !important;
-  opacity: 0.92;
+  border: 1px solid transparent;
+  color: #3f7cb8 !important;
+  opacity: 0.9;
+}
+html[data-qq2006] [class*="_logoRow"] [class*="_toggle"]:hover {
+  background: #ffffff !important;
+  border-color: var(--qq-line) !important;
 }
 html[data-qq2006] [class*="_logoRow"] [class*="_toggle"] svg {
   width: 14px !important;
@@ -354,12 +462,13 @@ html[data-qq2006] [class*="_sessionOverflowButton"]:hover {
 
 /* bottom bar */
 html[data-qq2006] [class*="_footArea"] {
-  height: 34px !important;
+  height: auto !important;
+  min-height: 40px !important;
   border-top: 1px solid var(--qq-line) !important;
   background: linear-gradient(180deg, #f4fafe, #e2eefb) !important;
 }
 html[data-qq2006] [class*="_footArea"] [class*="_trigger"] {
-  height: 33px !important;
+  height: 30px !important;
   padding: 0 10px !important;
   border-radius: 0 !important;
   color: #1d4e7f !important;
@@ -391,6 +500,17 @@ html[data-qq2006] header[class*="_header"] [class*="_crumbCurrent"] {
   font-weight: 700 !important;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
 }
+/* "与 xxx 聊天中", the way every QQ chat window was titled */
+html[data-qq2006] header[class*="_header"] [class*="_crumbCurrent"]::before {
+  content: "与 ";
+  font-weight: 400;
+  color: #dcecff;
+}
+html[data-qq2006] header[class*="_header"] [class*="_crumbCurrent"]::after {
+  content: " 聊天中";
+  font-weight: 400;
+  color: #dcecff;
+}
 html[data-qq2006] header[class*="_header"] [class*="_crumb"] {
   color: #eaf5ff !important;
 }
@@ -408,43 +528,57 @@ html[data-qq2006] header[class*="_header"] button:hover {
   border-radius: 2px !important;
 }
 
-/* tabs = conversation toolbar strip */
+/* tabs = the little bevelled buttons of a QQ toolbar */
 html[data-qq2006] header[class*="_header"] [class*="_tabs"] {
-  height: 24px !important;
+  height: 26px !important;
   padding: 0 8px !important;
-  gap: 2px !important;
-  align-items: flex-end !important;
+  gap: 3px !important;
+  align-items: center !important;
   background: linear-gradient(180deg, #f6fbff, #dbeaf9) !important;
   border-top: 1px solid rgba(255, 255, 255, 0.6) !important;
   border-bottom: 1px solid var(--qq-line) !important;
 }
 html[data-qq2006] header[class*="_header"] button[class*="_tab"] {
-  height: 21px !important;
-  padding: 0 10px !important;
-  border: 1px solid transparent !important;
-  border-bottom: none !important;
-  border-radius: 3px 3px 0 0 !important;
-  background: transparent !important;
-  color: #2a5c8f !important;
+  height: 19px !important;
+  padding: 0 9px !important;
+  border: 1px solid #a8c8e8 !important;
+  border-radius: 2px !important;
+  background: linear-gradient(180deg, #fdfeff 0%, #e3eefb 100%) !important;
+  box-shadow: inset 0 1px 0 #ffffff !important;
+  color: #26547f !important;
   font-size: 12px !important;
 }
 html[data-qq2006] header[class*="_header"] button[class*="_tab"]:hover {
-  background: #e8f3fe !important;
+  border-color: #7fa9d5 !important;
+  background: linear-gradient(180deg, #ffffff 0%, #d3e6f9 100%) !important;
 }
 html[data-qq2006] header[class*="_header"] button[class*="_tab"][class*="Active"] {
   position: relative;
-  top: 1px;
-  background: linear-gradient(180deg, #ffffff, #f2f8fe) !important;
-  border-color: var(--qq-line) !important;
-  color: #0f3f6e !important;
+  border-color: #5f93ca !important;
+  background: linear-gradient(180deg, #ffffff 0%, #cfe4f9 100%) !important;
+  box-shadow:
+    inset 0 1px 0 #ffffff,
+    0 0 0 1px rgba(255, 255, 255, 0.5) !important;
+  color: #0d3a63 !important;
   font-weight: 700 !important;
 }
-
 /* ---------- 6. conversation --------------------------------------------- */
 
-html[data-qq2006] [class*="_scrollBody"],
+html[data-qq2006] [class*="_scrollBody"] {
+  background-color: var(--qq-paper) !important;
+  background-image: var(--qq-watermark) !important;
+  background-repeat: repeat !important;
+  background-size: 240px 240px !important;
+}
 html[data-qq2006] [class*="_viewArea"] {
-  background: #ffffff !important;
+  margin: 6px 6px 0 !important;
+  border: 1px solid var(--qq-line) !important;
+  border-radius: 2px 2px 0 0 !important;
+  background-color: #f9fcff !important;
+  background-image: var(--qq-watermark) !important;
+  background-repeat: repeat !important;
+  background-size: 240px 240px !important;
+  box-shadow: inset 0 1px 0 #ffffff !important;
 }
 html[data-qq2006] [class*="_column"] {
   font-size: 12.5px !important;
@@ -596,8 +730,25 @@ html[data-qq2006] [class*="_composerHero"] [class*="_headline"] {
 }
 
 html[data-qq2006] [class*="_composerSeat"] {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 42%) !important;
+  padding-top: 6px !important;
+  background: linear-gradient(180deg, #e9f3fd 0%, #f7fbff 55%, #f2f8fe 100%) !important;
+  border-top: 1px solid var(--qq-line) !important;
+  box-shadow: inset 0 1px 0 #ffffff !important;
 }
+/* a real conversation stretches the input to the window width, the empty
+   hero keeps the host's centred box */
+html[data-qq2006] body:has([class*="_column"]) [class*="_composerStack"] {
+  width: 100% !important;
+  max-width: none !important;
+  padding: 0 12px !important;
+  box-sizing: border-box !important;
+}
+html[data-qq2006] body:has([class*="_column"]) [class*="_composerStack"] [class*="_card"] {
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+}
+
 html[data-qq2006] [class*="_composerStack"] [class*="_card"] {
   overflow: hidden;
   padding: 0 !important;
@@ -698,10 +849,13 @@ html[data-qq2006] [class*="_dock"] button:hover {
 
 /* The right panel keeps its own surface: painting a background here would
    light up the panel while it is parked off-layout, covering the conversation. */
-html[data-qq2006] [class*="_panel"][aria-hidden="true"] {
+html[data-qq2006] [class*="_rightbarCol"] [class*="_panel"][aria-hidden="true"] {
   visibility: hidden !important;
 }
-html[data-qq2006] [class*="_pane"] {
+/* scoped through the tab layout: a bare [class*="_pane"] also matches
+   every "_panelRow"/"_panelBody", which painted a stray 1px line over the
+   sidebar navigation. */
+html[data-qq2006] [class*="_tabLayout"] [class*="_pane"] {
   border-left: 1px solid var(--qq-line) !important;
 }
 html[data-qq2006] [role="menu"] {
@@ -738,10 +892,10 @@ html[data-qq2006] [role="tooltip"] {
 /* ---------- 9. compact widths ------------------------------------------- */
 
 @media (max-width: 1080px) {
-  html[data-qq2006] [class*="_logoRow"]::after {
-    content: "\FF0D\2003\2715";
-  }
-  html[data-qq2006] [class*="_newSession"] {
+  html[data-qq2006] button[class*="_newSession"] {
     margin: 0 8px 6px !important;
+  }
+  .qq-windowbar .qq-wb-sub {
+    display: none;
   }
 }
