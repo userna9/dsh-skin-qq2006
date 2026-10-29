@@ -33,13 +33,13 @@
 ### 方式 A：GitHub 链接（推荐，装完即可用）
 
 ```bash
-dsh plugin --profile web add github:<你的GitHub用户名>/dsh-skin-qq2006
+dsh plugin --profile web add github:userna9/dsh-skin-qq2006
 ```
 
 也接受完整仓库地址：
 
 ```bash
-dsh plugin --profile web add https://github.com/<你的GitHub用户名>/dsh-skin-qq2006
+dsh plugin --profile web add https://github.com/userna9/dsh-skin-qq2006
 ```
 
 然后重启 `dsh web`（已经打开的话刷新页面也行）。
@@ -47,7 +47,7 @@ dsh plugin --profile web add https://github.com/<你的GitHub用户名>/dsh-skin
 ### 方式 B：本地克隆（改皮肤、二次开发用）
 
 ```bash
-git clone https://github.com/<你的GitHub用户名>/dsh-skin-qq2006
+git clone https://github.com/userna9/dsh-skin-qq2006
 cd dsh-skin-qq2006
 dsh plugin --profile web add .
 ```
